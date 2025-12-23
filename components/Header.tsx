@@ -6,7 +6,7 @@ import { Button } from "./Button";
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-gradient-to-b from-sky-900/80 to-slate-900/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-gradient-to-b from-sky-900 to-slate-900 backdrop-blur">
       <Container>
         <div className="flex h-16 items-center justify-between">
           {/* Brand */}
@@ -34,7 +34,7 @@ export function Header() {
             <Button
               href="/contact"
               variant="secondary"
-              className="hidden sm:inline-flex border-white/40 text-white hover:bg-white/10"
+              className="hidden sm:inline-flex border border-white/40 bg-transparent text-white hover:bg-white/10"
             >
               Request a quote
             </Button>
