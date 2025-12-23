@@ -13,7 +13,11 @@ export default function HomePage() {
         <Container>
           <div className="py-16 md:py-20">
             <div className="max-w-3xl">
+<<<<<<< HEAD
               <Badge>Cybersecurity • Cloud • Consulting</Badge>
+=======
+              <Badge>Cybersecurity • Cloud • IT Consulting</Badge>
+>>>>>>> origin/main
               <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
                 Secure cloud deployments and practical cybersecurity that moves the business forward.
               </h1>

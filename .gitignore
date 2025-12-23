@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -137,6 +138,8 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+=======
+>>>>>>> origin/main
 # dependencies
 node_modules
 
@@ -147,7 +150,10 @@ out/
 # misc
 .DS_Store
 *.pem
+<<<<<<< HEAD
 *.docx
+=======
+>>>>>>> origin/main
 
 # env
 .env*

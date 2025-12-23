@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 # chappell-secure-tech-web-app_v1
+=======
+>>>>>>> origin/main
 # CSTS Next.js + Tailwind Starter
 
 Modern starter site structure for a Cybersecurity / Cloud / IT Services organization.
