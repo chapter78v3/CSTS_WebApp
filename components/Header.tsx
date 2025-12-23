@@ -15,47 +15,18 @@ export function Header() {
               {site.shortName}
             </div>
             <div className="leading-tight">
-              <div className="text-sm font-semibold text-white">
-                {site.name}
-              </div>
-              <div className="text-xs text-slate-300">
-                Cybersecurity &amp; Cloud
-              </div>
+              <div className="text-sm font-semibold text-white">{site.name}</div>
+              <div className="text-xs text-slate-300">Cybersecurity &amp; Cloud</div>
             </div>
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden items-center gap-6 md:flex">
-            <NavLink
-              href="/services"
-              className="text-sm font-medium text-slate-200 transition-colors hover:text-white"
-            >
-              Services
-            </NavLink>
-            <NavLink
-              href="/industries"
-              className="text-sm font-medium text-slate-200 transition-colors hover:text-white"
-            >
-              Industries
-            </NavLink>
-            <NavLink
-              href="/case-studies"
-              className="text-sm font-medium text-slate-200 transition-colors hover:text-white"
-            >
-              Case Studies
-            </NavLink>
-            <NavLink
-              href="/about"
-              className="text-sm font-medium text-slate-200 transition-colors hover:text-white"
-            >
-              About
-            </NavLink>
-            <NavLink
-              href="/contact"
-              className="text-sm font-medium text-slate-200 transition-colors hover:text-white"
-            >
-              Contact
-            </NavLink>
+          <nav className="hidden items-center gap-6 md:flex text-sm font-medium text-slate-200">
+            <NavLink href="/services">Services</NavLink>
+            <NavLink href="/industries">Industries</NavLink>
+            <NavLink href="/case-studies">Case Studies</NavLink>
+            <NavLink href="/about">About</NavLink>
+            <NavLink href="/contact">Contact</NavLink>
           </nav>
 
           {/* CTAs */}
@@ -67,10 +38,7 @@ export function Header() {
             >
               Request a quote
             </Button>
-            <Button
-              href="/contact"
-              className="bg-white font-semibold text-slate-900 hover:bg-slate-100"
-            >
+            <Button href="/contact" className="bg-white font-semibold text-slate-900 hover:bg-slate-100">
               Book a consult
             </Button>
           </div>
