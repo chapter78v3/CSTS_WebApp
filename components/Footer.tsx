@@ -5,7 +5,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-gradient-to-b from-sky-900 to-slate-900 text-slate-100">
+    <footer className="border-t border-white/10 bg-gradient-to-b from-sky-900 to-slate-900">
       <Container>
         <div className="py-10 grid gap-6 md:grid-cols-3">
           <div className="space-y-2">
@@ -16,7 +16,7 @@ export function Footer() {
           <div className="space-y-2">
             <div className="text-sm font-semibold text-slate-900">Services</div>
             <ul className="text-sm text-slate-600 space-y-1">
-              <li>Cybersecurity (RBVM, vCISO, assessments)</li>
+              <li>Cybersecurity (RBVM, vCISO, Assessments)</li>
               <li>Cloud Deployments & Management (Azure)</li>
               <li>Consultation (architecture, strategy)</li>
             </ul>
