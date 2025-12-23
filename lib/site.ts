@@ -5,7 +5,7 @@ export const site = {
   tagline: "Cybersecurity. Cloud Deployments. Trusted IT Consulting.",
   description:
     "Modern cybersecurity and cloud services: risk-based vulnerability management, secure cloud deployments, architecture reviews, and ongoing operational support.",
-  contactEmail: "Milan_Chappell@yahoo.com",
+  contactEmail: "Milan.Chappell@csts.it.com",
   social: {
     linkedin: "#", // TODO
     github: "#", // TODO
