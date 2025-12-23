@@ -50,7 +50,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="min-h-screen">
+      <body className="min-h-screen bg-gradient-to-b from-sky-50 to-white text-slate-900">
         <Header />
         <main>{children}</main>
         <Footer />
