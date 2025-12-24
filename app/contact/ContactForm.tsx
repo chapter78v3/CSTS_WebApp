@@ -2,32 +2,36 @@
 
 import { useState } from "react";
 
+type Status = "idle" | "loading" | "success" | "error";
+
 export function ContactForm() {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [error, setError] = useState<string>("");
+  const [status, setStatus] = useState<Status>("idle");
+  const [error, setError] = useState("");
+
+  // Controlled fields (bulletproof)
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [topic, setTopic] = useState("Cybersecurity");
+  const [message, setMessage] = useState("");
+
+  // Honeypot (bots fill this)
+  const [website, setWebsite] = useState("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("loading");
     setError("");
 
-    const form = e.currentTarget;
-
-    // Bulletproof field extraction (avoids FormData edge cases)
-    const name = (form.elements.namedItem("name") as HTMLInputElement | null)?.value ?? "";
-    const email = (form.elements.namedItem("email") as HTMLInputElement | null)?.value ?? "";
-    const topic =
-      (form.elements.namedItem("topic") as HTMLSelectElement | null)?.value ?? "Cybersecurity";
-    const message = (form.elements.namedItem("message") as HTMLTextAreaElement | null)?.value ?? "";
-    const website = (form.elements.namedItem("website") as HTMLInputElement | null)?.value ?? "";
-
     const payload = {
       name: name.trim(),
       email: email.trim(),
       topic,
       message: message.trim(),
-      website: website.trim(), // honeypot
+      website: website.trim(),
     };
+
+    // TEMP debug: confirm browser is actually sending values
+    console.log("Contact payload:", payload);
 
     try {
       const res = await fetch("/api/contact", {
@@ -45,12 +49,20 @@ export function ContactForm() {
       }
 
       setStatus("success");
-      form.reset();
+
+      // reset fields
+      setName("");
+      setEmail("");
+      setTopic("Cybersecurity");
+      setMessage("");
+      setWebsite("");
     } catch {
       setStatus("error");
       setError("Network error. Please try again.");
     }
   }
+
+  const disabled = status === "loading";
 
   return (
     <form className="grid gap-4" onSubmit={onSubmit}>
@@ -61,10 +73,13 @@ export function ContactForm() {
         <input
           id="name"
           name="name"
+          type="text"
           required
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           className="rounded-xl border border-slate-200 px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-300"
           placeholder="Your name"
-          disabled={status === "loading"}
+          disabled={disabled}
         />
       </div>
 
@@ -77,9 +92,11 @@ export function ContactForm() {
           name="email"
           type="email"
           required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="rounded-xl border border-slate-200 px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-300"
           placeholder="you@company.com"
-          disabled={status === "loading"}
+          disabled={disabled}
         />
       </div>
 
@@ -90,9 +107,10 @@ export function ContactForm() {
         <select
           id="topic"
           name="topic"
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
           className="rounded-xl border border-slate-200 px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-300"
-          defaultValue="Cybersecurity"
-          disabled={status === "loading"}
+          disabled={disabled}
         >
           <option>Cybersecurity</option>
           <option>Cloud Deployments &amp; Management</option>
@@ -110,21 +128,31 @@ export function ContactForm() {
           name="message"
           required
           rows={6}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
           className="rounded-xl border border-slate-200 px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-slate-300"
           placeholder="Tell us what you’re trying to accomplish, timeline, and any constraints."
-          disabled={status === "loading"}
+          disabled={disabled}
         />
       </div>
 
-      {/* Honeypot field (bots will fill this) */}
-      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
+      {/* Honeypot field (hide from users, bots may fill it) */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        className="hidden"
+        value={website}
+        onChange={(e) => setWebsite(e.target.value)}
+      />
 
       <button
         type="submit"
-        disabled={status === "loading"}
+        disabled={disabled}
         className="mt-2 inline-flex items-center justify-center rounded-xl bg-sky-600 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-700 focus:ring-offset-2 disabled:opacity-60"
       >
-        {status === "loading" ? "Sending..." : "Send message"}
+        {disabled ? "Sending..." : "Send message"}
       </button>
 
       {status === "success" && (
@@ -134,9 +162,7 @@ export function ContactForm() {
       )}
 
       {status === "error" && (
-        <p className="text-sm font-medium text-rose-700">
-          {error || "Something went wrong. Please try again."}
-        </p>
+        <p className="text-sm font-medium text-rose-700">{error}</p>
       )}
 
       <p className="text-xs text-slate-500">
