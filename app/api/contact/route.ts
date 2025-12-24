@@ -78,7 +78,7 @@ ${message}
     });
 
     return NextResponse.json({ ok: true });
-  } } catch (err: any) {
+    } catch (err: any) {
   const sg = err?.response?.body || err?.response?.text || err?.message || err;
   console.error("Contact API error:", sg);
 
@@ -92,5 +92,5 @@ ${message}
   );
 }
 
-  }
+  
 }
