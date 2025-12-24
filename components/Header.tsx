@@ -27,7 +27,7 @@ export function Header() {
             <NavLink href="/case-studies">Case Studies</NavLink>
             <NavLink href="/about">About</NavLink>
             <NavLink href="/contact">Contact</NavLink>
-          </nav>
+          </nav>  
 
           {/* CTAs */}
           <div className="flex items-center gap-2">
