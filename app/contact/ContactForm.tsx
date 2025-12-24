@@ -12,14 +12,21 @@ export function ContactForm() {
     setError("");
 
     const form = e.currentTarget;
-    const formData = new FormData(form);
+
+    // Bulletproof field extraction (avoids FormData edge cases)
+    const name = (form.elements.namedItem("name") as HTMLInputElement | null)?.value ?? "";
+    const email = (form.elements.namedItem("email") as HTMLInputElement | null)?.value ?? "";
+    const topic =
+      (form.elements.namedItem("topic") as HTMLSelectElement | null)?.value ?? "Cybersecurity";
+    const message = (form.elements.namedItem("message") as HTMLTextAreaElement | null)?.value ?? "";
+    const website = (form.elements.namedItem("website") as HTMLInputElement | null)?.value ?? "";
 
     const payload = {
-      name: String(formData.get("name") ?? "").trim(),
-      email: String(formData.get("email") ?? "").trim(),
-      topic: String(formData.get("topic") ?? "Cybersecurity"),
-      message: String(formData.get("message") ?? "").trim(),
-      website: String(formData.get("website") ?? "").trim(), // honeypot
+      name: name.trim(),
+      email: email.trim(),
+      topic,
+      message: message.trim(),
+      website: website.trim(), // honeypot
     };
 
     try {
