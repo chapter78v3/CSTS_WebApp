@@ -30,7 +30,7 @@ export default function AboutPage() {
               <h3 className="mt-8 text-lg font-semibold text-slate-900">What you can expect</h3>
               <ul className="mt-4 space-y-2 text-sm text-slate-700">
                 {[
-                  "Clear scope and measurable deliverables",
+                  "Clear scopes and measurable deliverables",
                   "Security decisions tied to business outcomes",
                   "Automation and documentation for day-2 operations",
                   "Direct collaboration with engineering and leadership",
