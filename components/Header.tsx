@@ -21,7 +21,7 @@ export function Header() {
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden items-center gap-6 md:flex text-sm font-medium text-slate-200">
+          <nav className="hidden items-center gap-6 md:flex text-sm font-medium text-white">
             <NavLink href="/services">Services</NavLink>
             <NavLink href="/industries">Industries</NavLink>
             <NavLink href="/case-studies">Case Studies</NavLink>
@@ -34,11 +34,11 @@ export function Header() {
             <Button
               href="/contact"
               variant="secondary"
-              className="hidden sm:inline-flex border border-white/40 bg-transparent text-white hover:bg-white/10"
+              className="hidden sm:inline-flex border border-sky-400 bg-sky-700/30 text-sky-100 hover:bg-sky-700/50"
             >
               Request a quote
             </Button>
-            <Button href="/contact" className="bg-white font-semibold text-slate-900 hover:bg-slate-100">
+            <Button href="/contact" className="bg-sky-500 font-semibold text-white hover:bg-sky-600">
               Book a consult
             </Button>
           </div>
