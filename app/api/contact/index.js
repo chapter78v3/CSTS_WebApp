@@ -1,26 +1,74 @@
+const sgMail = require("@sendgrid/mail");
+
 module.exports = async function (context, req) {
   try {
-    const { name, email, message } = req.body || {};
+    // SWA Functions can provide body as string OR object OR empty
+    let body = req.body;
+
+    if (!body && req.rawBody) {
+      body = req.rawBody;
+    }
+
+    if (typeof body === "string") {
+      try {
+        body = JSON.parse(body);
+      } catch {
+        body = {};
+      }
+    }
+
+    body = body || {};
+
+    const name = String(body.name || "").trim();
+    const email = String(body.email || "").trim();
+    const topic = String(body.topic || "General").trim();
+    const message = String(body.message || "").trim();
+    const website = String(body.website || "").trim(); // honeypot
+
+    // Honeypot: if filled, accept silently
+    if (website) {
+      context.res = { status: 200, body: { ok: true } };
+      return;
+    }
 
     if (!name || !email || !message) {
-      context.res = { status: 400, body: { ok: false, error: "Missing fields" } };
+      context.res = {
+        status: 400,
+        body: { ok: false, error: "Name, email, and message are required" },
+      };
       return;
     }
 
-    // Basic email sanity check
-    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!emailOk) {
-      context.res = { status: 400, body: { ok: false, error: "Invalid email" } };
+    const apiKey = process.env.SENDGRID_API_KEY;
+    const toEmail = process.env.CONTACT_TO_EMAIL || "contact@csts.it.com";
+    const fromEmail = process.env.CONTACT_FROM_EMAIL;
+
+    if (!apiKey || !fromEmail) {
+      context.res = { status: 500, body: { ok: false, error: "Email not configured" } };
       return;
     }
 
-    // TODO: Send email (Mailgun/SendGrid) or store to a DB.
-    // For now: log it (you'll see this in Function logs)
-    context.log("New contact request:", { name, email, message });
+    sgMail.setApiKey(apiKey);
+
+    await sgMail.send({
+      to: toEmail,
+      from: { email: fromEmail, name: "CSTS Website" }, // must be verified sender
+      replyTo: email,
+      subject: `[CSTS Contact Form] ${topic} — ${name}`,
+      text: `New contact submission
+
+Name: ${name}
+Email: ${email}
+Topic: ${topic}
+
+Message:
+${message}
+`,
+    });
 
     context.res = { status: 200, body: { ok: true } };
-  } catch (e) {
-    context.log.error(e);
+  } catch (err) {
+    context.log("SendGrid error:", err?.response?.body || err);
     context.res = { status: 500, body: { ok: false, error: "Server error" } };
   }
 };
