@@ -21,7 +21,7 @@ export function Header() {
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden items-center gap-6 md:flex text-sm font-medium text-white">
+          <nav className="hidden items-center gap-6 md:flex text-sm font-semibold text-white">
             <NavLink href="/services">Services</NavLink>
             <NavLink href="/industries">Industries</NavLink>
             <NavLink href="/case-studies">Case Studies</NavLink>
