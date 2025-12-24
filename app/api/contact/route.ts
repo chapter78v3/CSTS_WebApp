@@ -9,9 +9,9 @@ function isValidEmail(email: string) {
 
 export async function POST(req: Request) {
   try {
+    // Read raw body once (robust for SWA)
     const raw = await req.text();
     let body: any = {};
-
     try {
       body = raw ? JSON.parse(raw) : {};
     } catch {
@@ -24,26 +24,22 @@ export async function POST(req: Request) {
     const message = String(body?.message ?? "").trim();
     const website = String(body?.website ?? "").trim(); // honeypot
 
-    // Honeypot
+    // Honeypot: silently accept
     if (website) {
       return NextResponse.json({ ok: true });
     }
 
-    // TEMP: if validation fails, return what server saw
+    // Validation
     if (!name || !email || !message) {
       return NextResponse.json(
-        {
-          ok: false,
-          error: "Name, email, and message are required",
-          debug: { received: { name, email, topic, messageLen: message.length } },
-        },
+        { ok: false, error: "Name, email, and message are required." },
         { status: 400 }
       );
     }
 
     if (!isValidEmail(email)) {
       return NextResponse.json(
-        { ok: false, error: "Invalid email address", debug: { email } },
+        { ok: false, error: "Invalid email address." },
         { status: 400 }
       );
     }
@@ -51,10 +47,11 @@ export async function POST(req: Request) {
     const apiKey = process.env.SENDGRID_API_KEY;
     const toEmail = process.env.CONTACT_TO_EMAIL || "contact@csts.it.com";
     const fromEmail = process.env.CONTACT_FROM_EMAIL;
+    const subjectPrefix = process.env.CONTACT_SUBJECT_PREFIX || "CSTS Contact Form";
 
     if (!apiKey || !fromEmail) {
       return NextResponse.json(
-        { ok: false, error: "Email service not configured (missing env vars)." },
+        { ok: false, error: "Email service not configured." },
         { status: 500 }
       );
     }
@@ -65,7 +62,7 @@ export async function POST(req: Request) {
       to: toEmail,
       from: { email: fromEmail, name: "CSTS Website" },
       replyTo: email,
-      subject: `[CSTS Contact Form] ${topic} — ${name}`,
+      subject: `[${subjectPrefix}] ${topic} — ${name}`,
       text: `New contact submission
 
 Name: ${name}
@@ -78,19 +75,11 @@ ${message}
     });
 
     return NextResponse.json({ ok: true });
-    } catch (err: any) {
-  const sg = err?.response?.body || err?.response?.text || err?.message || err;
-  console.error("Contact API error:", sg);
-
-  return NextResponse.json(
-    {
-      ok: false,
-      error: "Send failed",
-      details: err?.response?.body?.errors ?? sg,
-    },
-    { status: 500 }
-  );
-}
-
-  
+  } catch (err) {
+    console.error("Contact API error:", err);
+    return NextResponse.json(
+      { ok: false, error: "Server error." },
+      { status: 500 }
+    );
+  }
 }
