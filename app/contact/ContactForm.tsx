@@ -15,10 +15,11 @@ export function ContactForm() {
     const formData = new FormData(form);
 
     const payload = {
-      name: String(formData.get("name") ?? ""),
-      email: String(formData.get("email") ?? ""),
+      name: String(formData.get("name") ?? "").trim(),
+      email: String(formData.get("email") ?? "").trim(),
       topic: String(formData.get("topic") ?? "Cybersecurity"),
-      message: String(formData.get("message") ?? ""),
+      message: String(formData.get("message") ?? "").trim(),
+      website: String(formData.get("website") ?? "").trim(), // honeypot
     };
 
     try {
@@ -108,14 +109,8 @@ export function ContactForm() {
         />
       </div>
 
-      <input
-        type="text"
-        name="website"
-        tabIndex={-1}
-        autoComplete="off"
-        className="hidden"
-        />
-
+      {/* Honeypot field (bots will fill this) */}
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" />
 
       <button
         type="submit"

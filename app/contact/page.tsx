@@ -23,11 +23,11 @@ export default function ContactPage() {
             <ContactForm />
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-8">
+          <div className="rounded-3xl border border-slate-200 bg-sky-50 p-8">
             <h3 className="text-lg font-semibold text-slate-900">Prefer email?</h3>
             <p className="mt-2 text-sm text-slate-600">
               Email us at{" "}
-              <a className="underline" href={`mailto:${site.contactEmail}`}>
+              <a className="underline underline-offset-4" href={`mailto:${site.contactEmail}`}>
                 {site.contactEmail}
               </a>
             </p>
@@ -41,7 +41,7 @@ export default function ContactPage() {
                 "Stakeholders and decision process",
               ].map((x) => (
                 <li key={x} className="flex gap-2">
-                  <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-slate-400" />
+                  <span aria-hidden="true" className="mt-1.5 h-1.5 w-1.5 rounded-full bg-slate-400" />
                   <span>{x}</span>
                 </li>
               ))}
