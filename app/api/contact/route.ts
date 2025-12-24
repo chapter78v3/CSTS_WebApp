@@ -78,8 +78,19 @@ ${message}
     });
 
     return NextResponse.json({ ok: true });
-  } catch (err: any) {
-    console.error("Contact API error:", err?.response?.body ?? err);
-    return NextResponse.json({ ok: false, error: "Server error." }, { status: 500 });
+  } } catch (err: any) {
+  const sg = err?.response?.body || err?.response?.text || err?.message || err;
+  console.error("Contact API error:", sg);
+
+  return NextResponse.json(
+    {
+      ok: false,
+      error: "Send failed",
+      details: err?.response?.body?.errors ?? sg,
+    },
+    { status: 500 }
+  );
+}
+
   }
 }
